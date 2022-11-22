@@ -4,6 +4,7 @@
 ### ->flutter  Ui
 ### ->State Management GetX
 ### -> backend Firebase 
+### -> MVC model Framework I used
 
 ## The Full Design Info
 # Login Page
