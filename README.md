@@ -1,6 +1,9 @@
-# My Flutter TikTok Application 
+# Full Stack  Flutter TikTok Application 
 
-A new Flutter project.
+## This Flutter App Developed by using the following technology
+### ->flutter  Ui
+### ->State Management GetX
+### -> backend Firebase 
 
 ## Getting Started
 
