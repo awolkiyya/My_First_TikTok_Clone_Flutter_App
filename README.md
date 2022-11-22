@@ -9,9 +9,9 @@
 ## The Full Design Info
 # Login Page
 <br/>
-<img src="assets/Screenshot_1668940762.png" width=200/>
+<img src="assets/Screenshot_1668940762.png" width=300/>
 <br/>
 # Home Page
 <br/>
-<img src="assets/Screenshot_1669123959.png" width=200/>
+<img src="assets/Screenshot_1669123959.png" width=300/>
 
