@@ -5,9 +5,11 @@
 ### ->State Management GetX
 ### -> backend Firebase 
 
-## Getting Started
-
+## The Full Design Info
+Login Page
 <img src="assets/Screenshot_1668940762.png" width=100/>
+Home Page
+<img src="assets/Screenshot_1669123959.png" width=100/>
 This project is a starting point for a Flutter application.
 
 A few resources to get you started if this is your first Flutter project:
