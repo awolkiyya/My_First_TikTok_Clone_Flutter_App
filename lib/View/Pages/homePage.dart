@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_tiktok/Controllers/videoController.dart';
+import 'package:my_tiktok/View/Pages/comment_screen.dart';
 import 'package:my_tiktok/Widgets/circleAnimation.dart';
 import 'package:my_tiktok/Widgets/videoPlayer.dart';
 import 'package:get/get.dart';
@@ -159,14 +160,13 @@ class HomePage extends StatelessWidget {
                                   Column(
                                     children: [
                                       InkWell(
-                                        onTap: () => {},
-                                        // onTap: () => Navigator.of(context).push(
-                                        //   MaterialPageRoute(
-                                        //     // builder: (context) => CommentScreen(
-                                        //     //   id: data.id,
-                                        //     // ),
-                                        //   ),
-                                        // ),
+                                        onTap: () => Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) => CommentScreen(
+                                              id: data.id,
+                                            ),
+                                          ),
+                                        ),
                                         child: const Icon(
                                           Icons.comment,
                                           size: 40,

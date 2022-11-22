@@ -1,20 +1,19 @@
+import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
-import 'dart:io';
-import 'package:get/get_connect/http/src/request/request.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:my_tiktok/Model/user.dart' as model;
 import 'package:my_tiktok/View/homeScreen.dart';
 import 'package:my_tiktok/View/loginpage.dart';
 import 'package:my_tiktok/colors.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:my_tiktok/main.dart';
 
 class AuthController extends GetxController {
   static AuthController instance = Get.find();
-  late Rx<File?> _pickedImage;
   late Rx<User?> _user;
-  File? get profilephoto => _pickedImage.value;
+  late Rx<File?> _pickedImage;
+
+  File? get profilePhoto => _pickedImage.value;
   User get user => _user.value!;
 
   @override
@@ -26,11 +25,10 @@ class AuthController extends GetxController {
   }
 
   _setInitialScreen(User? user) {
-    if (user != null) {
-      Get.offAll(() =>
-          HomeScreen()); // this is used for routing in to some screen using get.ofAll()
-    } else {
+    if (user == null) {
       Get.offAll(() => LoginPage());
+    } else {
+      Get.offAll(() => const HomeScreen());
     }
   }
 
@@ -38,69 +36,83 @@ class AuthController extends GetxController {
     final pickedImage =
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
-      Get.snackbar("Profile Picture", "Your profile selected");
+      Get.snackbar('Profile Picture',
+          'You have successfully selected your profile picture!');
     }
     _pickedImage = Rx<File?>(File(pickedImage!.path));
   }
 
-  Future<String> _uploadImage(File image) async {
-    // find the current user and create feild to store image
+  // upload to firebase storage
+  Future<String> _uploadToStorage(File image) async {
     Reference ref = firebaseStorage
         .ref()
-        .child('profilepicture')
+        .child('profilePics')
         .child(firebaseAuth.currentUser!.uid);
-    // now start to upload this images
-    UploadTask task = ref.putFile(image);
-    TaskSnapshot snapshot = await task;
-    String url = await snapshot.ref.getDownloadURL();
-    return url;
+
+    UploadTask uploadTask = ref.putFile(image);
+    TaskSnapshot snap = await uploadTask;
+    String downloadUrl = await snap.ref.getDownloadURL();
+    return downloadUrl;
   }
 
-  // now one things is should understands are this concepts is like laravel
-  void register(
-      String username, String password, String email, File? image) async {
-    // this method is the used for registration purposes
+  // registering the user
+  void registerUser(
+      String username, String email, String password, File? image) async {
     try {
       if (username.isNotEmpty &&
-          password.isNotEmpty &&
           email.isNotEmpty &&
+          password.isNotEmpty &&
           image != null) {
-        // then store the user to auth and firebase store
+        // save out user to our ath and firebase firestore
         UserCredential cred = await firebaseAuth.createUserWithEmailAndPassword(
-            email: email, password: password);
-        // now after store auth then store data to firebase storege
-        // call the method to store data
-        String url = await _uploadImage(image);
+          email: email,
+          password: password,
+        );
+        String downloadUrl = await _uploadToStorage(image);
         model.User user = model.User(
-            name: username, profile: url, email: email, uid: cred.user!.uid);
+          name: username,
+          email: email,
+          uid: cred.user!.uid,
+          profile: downloadUrl,
+        );
         await firestore
             .collection('users')
             .doc(cred.user!.uid)
             .set(user.toJson());
       } else {
-        Get.snackbar('not fill all data to create account', 'fill all field');
+        Get.snackbar(
+          'Error Creating Account',
+          'Please enter all the fields',
+        );
       }
     } catch (e) {
       Get.snackbar(
-        'not fill all data to create account',
+        'Error Creating Account',
         e.toString(),
       );
     }
   }
 
-  void login(String email, String password) async {
+  void loginUser(String email, String password) async {
     try {
-      if (email != null && password != null) {
+      if (email.isNotEmpty && password.isNotEmpty) {
         await firebaseAuth.signInWithEmailAndPassword(
             email: email, password: password);
+      } else {
+        Get.snackbar(
+          'Error Logging in',
+          'Please enter all the fields',
+        );
       }
     } catch (e) {
       Get.snackbar(
-        'Login Error',
+        'Error Loggin gin',
         e.toString(),
       );
     }
   }
 
-  void delete() {}
+  void signOut() async {
+    await firebaseAuth.signOut();
+  }
 }

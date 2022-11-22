@@ -13,10 +13,10 @@ import 'package:my_tiktok/View/homeScreen.dart';
 // now here setup the list of the pages used in your application
 List pages = [
   HomePage(),
-  SearchPage(),
+  SearchScreen(),
   const AddPage(),
-  MessagePage(),
-  ProfilePage(),
+  Text('Messages Screen'),
+  ProfileScreen(uid: authController.user.uid),
 ];
 
 // COLORS

@@ -101,11 +101,11 @@ class SignPage extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 100),
               ),
               onPressed: () => {
-                authController.register(
+                authController.registerUser(
                     _userNameController.text,
-                    _passwordController.text,
                     _emailController.text,
-                    authController.profilephoto),
+                    _passwordController.text,
+                    authController.profilePhoto),
               },
               child: Text(
                 "Registor",

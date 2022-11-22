@@ -73,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
                 padding: EdgeInsets.symmetric(horizontal: 150),
               ),
               onPressed: () => {
-                authController.login(
+                authController.loginUser(
                     _emailController.text, _passwordController.text),
               },
               child: Text(

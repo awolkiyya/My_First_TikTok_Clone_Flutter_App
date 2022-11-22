@@ -30,7 +30,7 @@ class Video {
   Map<String, dynamic> toJson() => {
         "username": username,
         "uid": uid,
-        "profilePhoto": profilePhoto,
+        "profile": profilePhoto,
         "id": id,
         "likes": likes,
         "commentCount": commentCount,

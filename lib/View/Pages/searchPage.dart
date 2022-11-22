@@ -1,15 +1,72 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:my_tiktok/Controllers/searchController.dart';
+import 'package:my_tiktok/Model/user.dart';
+import 'package:my_tiktok/View/Pages/profilePage.dart';
 
-class SearchPage extends StatelessWidget {
-  const SearchPage({super.key});
+class SearchScreen extends StatelessWidget {
+  SearchScreen({Key? key}) : super(key: key);
+
+  final SearchController searchController = Get.put(SearchController());
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ElevatedButton(
-        child: Icon(Icons.search),
-        onPressed: () => {},
-      ),
-    );
+    return Obx(() {
+      return Scaffold(
+        backgroundColor: Colors.black,
+        appBar: AppBar(
+          backgroundColor: Colors.red,
+          title: TextFormField(
+            decoration: const InputDecoration(
+              filled: false,
+              hintText: 'Search',
+              hintStyle: TextStyle(
+                fontSize: 18,
+                color: Colors.white,
+              ),
+            ),
+            onFieldSubmitted: (value) => searchController.searchUser(value),
+          ),
+        ),
+        body: searchController.searchedUsers.isEmpty
+            ? const Center(
+                child: Text(
+                  'Search for users!',
+                  style: TextStyle(
+                    fontSize: 25,
+                    color: Color.fromARGB(255, 13, 13, 13),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              )
+            : ListView.builder(
+                itemCount: searchController.searchedUsers.length,
+                itemBuilder: (context, index) {
+                  User user = searchController.searchedUsers[index];
+                  return InkWell(
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => ProfileScreen(uid: user.uid),
+                      ),
+                    ),
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundImage: NetworkImage(
+                          user.profile,
+                        ),
+                      ),
+                      title: Text(
+                        user.name,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+      );
+    });
   }
 }
