@@ -6,10 +6,12 @@
 ### -> backend Firebase 
 
 ## The Full Design Info
-Login Page
+# Login Page
+<br/>
 <img src="assets/Screenshot_1668940762.png" width=200/>
 <br/>
-Home Page
+# Home Page
+<br/>
 <img src="assets/Screenshot_1669123959.png" width=200/>
 This project is a starting point for a Flutter application.
 
