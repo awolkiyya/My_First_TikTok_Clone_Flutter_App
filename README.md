@@ -1,4 +1,4 @@
-# my_tiktok
+# My Flutter TikTok Application 
 
 A new Flutter project.
 
